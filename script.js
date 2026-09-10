@@ -654,4 +654,4 @@ function escapeHTML(text) {
 
 addItem();
 
-updateInvoice();
+updateInvoice(); 
