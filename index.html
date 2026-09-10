@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Invoice Maker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div>
+        <h1>Invoice Maker</h1>
+        <p>Create a professional invoice in your browser.</p>
+    </div>
+
+    <div class="top-actions">
+        <button id="printBtn" class="primary-btn">
+            Print / Save PDF
+        </button>
+
+        <button id="resetBtn" class="danger-btn">
+            Reset
+        </button>
+    </div>
+</header>
+
+
+<main class="app">
+
+    <!-- SETTINGS -->
+
+    <section class="settings-panel">
+
+        <h2>Invoice Details</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Business Name</label>
+                <input
+                    type="text"
+                    id="businessName"
+                    placeholder="Your Business Name"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Invoice Number</label>
+                <input
+                    type="text"
+                    id="invoiceNumber"
+                    placeholder="INV-001"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Business Email</label>
+                <input
+                    type="email"
+                    id="businessEmail"
+                    placeholder="hello@example.com"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Business Phone</label>
+                <input
+                    type="text"
+                    id="businessPhone"
+                    placeholder="+63 900 000 0000"
+                >
+            </div>
+
+            <div class="form-group full">
+                <label>Business Address</label>
+                <textarea
+                    id="businessAddress"
+                    placeholder="Your business address"
+                ></textarea>
+            </div>
+
+        </div>
+
+
+        <h2>Customer</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Customer Name"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Customer Email</label>
+                <input
+                    type="email"
+                    id="customerEmail"
+                    placeholder="customer@example.com"
+                >
+            </div>
+
+            <div class="form-group full">
+                <label>Customer Address</label>
+                <textarea
+                    id="customerAddress"
+                    placeholder="Customer address"
+                ></textarea>
+            </div>
+
+        </div>
+
+
+        <h2>Dates</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Invoice Date</label>
+                <input type="date" id="invoiceDate">
+            </div>
+
+            <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" id="dueDate">
+            </div>
+
+        </div>
+
+
+        <h2>Invoice Appearance</h2>
+
+        <div class="appearance-controls">
+
+            <div class="color-control">
+                <label>Background Color</label>
+
+                <input
+                    type="color"
+                    id="backgroundColor"
+                    value="#ffffff"
+                >
+            </div>
+
+            <div class="color-control">
+                <label>Accent / Font Color</label>
+
+                <input
+                    type="color"
+                    id="accentColor"
+                    value="#222222"
+                >
+            </div>
+
+        </div>
+
+
+        <h2>Logo</h2>
+
+        <div class="logo-upload">
+
+            <input
+                type="file"
+                id="logoInput"
+                accept="image/*"
+            >
+
+            <button id="removeLogoBtn" class="secondary-btn">
+                Remove Logo
+            </button>
+
+        </div>
+
+
+        <h2>Items</h2>
+
+        <div class="items-editor">
+
+            <div class="item-header">
+                <span>Description</span>
+                <span>Qty</span>
+                <span>Price</span>
+                <span>Total</span>
+                <span></span>
+            </div>
+
+            <div id="itemsContainer"></div>
+
+            <button id="addItemBtn" class="add-item-btn">
+                + Add Item
+            </button>
+
+        </div>
+
+
+        <h2>Additional Charges</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Discount</label>
+                <input
+                    type="number"
+                    id="discount"
+                    min="0"
+                    step="0.01"
+                    value="0"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Tax (%)</label>
+                <input
+                    type="number"
+                    id="tax"
+                    min="0"
+                    step="0.01"
+                    value="0"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Shipping / Other Fee</label>
+                <input
+                    type="number"
+                    id="shipping"
+                    min="0"
+                    step="0.01"
+                    value="0"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Currency</label>
+
+                <select id="currency">
+                    <option value="₱">PHP ₱</option>
+                    <option value="$">USD $</option>
+                    <option value="€">EUR €</option>
+                    <option value="£">GBP £</option>
+                    <option value="¥">JPY ¥</option>
+                    <option value="₹">INR ₹</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <h2>Notes</h2>
+
+        <div class="form-group">
+            <textarea
+                id="notes"
+                placeholder="Payment terms, bank details, thank you message, etc."
+            ></textarea>
+        </div>
+
+    </section>
+
+
+    <!-- INVOICE PREVIEW -->
+
+    <section class="preview-section">
+
+        <div id="invoice" class="invoice">
+
+            <div class="invoice-header">
+
+                <div class="business-info">
+
+                    <img
+                        id="logoPreview"
+                        class="logo-preview"
+                        src=""
+                        alt="Logo"
+                    >
+
+                    <div>
+                        <h2 id="previewBusinessName">
+                            Your Business Name
+                        </h2>
+
+                        <p id="previewBusinessEmail">
+                            hello@example.com
+                        </p>
+
+                        <p id="previewBusinessPhone">
+                            +63 900 000 0000
+                        </p>
+
+                        <p id="previewBusinessAddress">
+                            Your business address
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="invoice-title">
+
+                    <h1>INVOICE</h1>
+
+                    <p>
+                        <strong>No:</strong>
+                        <span id="previewInvoiceNumber">
+                            INV-001
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        <span id="previewInvoiceDate">
+                            —
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Due:</strong>
+                        <span id="previewDueDate">
+                            —
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="customer-box">
+
+                <div>
+
+                    <span class="label">
+                        BILL TO
+                    </span>
+
+                    <h3 id="previewCustomerName">
+                        Customer Name
+                    </h3>
+
+                    <p id="previewCustomerEmail">
+                        customer@example.com
+                    </p>
+
+                    <p id="previewCustomerAddress">
+                        Customer address
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <table class="invoice-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="previewItems">
+
+                </tbody>
+
+            </table>
+
+
+            <div class="totals">
+
+                <div>
+                    <span>Subtotal</span>
+                    <strong id="previewSubtotal">
+                        ₱0.00
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Discount</span>
+                    <strong id="previewDiscount">
+                        ₱0.00
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Tax</span>
+                    <strong id="previewTax">
+                        ₱0.00
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Shipping / Other</span>
+                    <strong id="previewShipping">
+                        ₱0.00
+                    </strong>
+                </div>
+
+                <div class="grand-total">
+                    <span>Total</span>
+
+                    <strong id="previewGrandTotal">
+                        ₱0.00
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="invoice-footer">
+
+                <h3>Notes</h3>
+
+                <p id="previewNotes">
+                    Thank you for your business!
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
