@@ -487,3 +487,45 @@ select:focus {
     }
 
 }
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .topbar,
+    .settings-panel {
+        display: none !important;
+    }
+
+    .app {
+        display: block;
+
+        padding: 0;
+        margin: 0;
+    }
+
+    .preview-section {
+        width: 100%;
+    }
+
+    .invoice {
+        box-shadow: none;
+
+        max-width: none;
+
+        min-height: auto;
+
+        width: 100%;
+
+        margin: 0;
+
+        padding: 30px;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+}
